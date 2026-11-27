@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sergio Morales Meza | Geoinformática, SIG y web mapping</title>
+<meta name="description" content="Portafolio de Sergio Morales Meza, Licenciado en Geoinformática: análisis SIG, bases de datos espaciales, tableros, visores web, cartografía y fotogrametría con dron.">
+<meta property="og:title" content="Sergio Morales Meza | Geoinformática">
+<meta property="og:description" content="Análisis SIG, bases de datos espaciales, tableros, visores web y fotogrametría con dron.">
+<meta property="og:image" content="images/portada-geoinformatica.jpg">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#E8EDEA;
+  --papel-2:#DCE3DF;
+  --tinta:#13232C;
+  --tinta-2:#4A5B63;
+  --curva:#A88B5E;
+  --agua:#0E6B73;
+  --senal:#E2B007;
+  --blanco:#F7F9F8;
+  --display:"Archivo",system-ui,sans-serif;
+  --texto:"IBM Plex Sans",system-ui,sans-serif;
+  --borde:1.5px solid var(--tinta);
+  --max:1180px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--papel);color:var(--tinta);font:400 1.0625rem/1.6 var(--texto);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--senal);outline-offset:3px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 clamp(20px,4vw,40px)}
+h1,h2,h3{font-family:var(--display);line-height:1.05;letter-spacing:-.01em}
+h2{font-size:clamp(2rem,4.2vw,3.25rem);font-weight:700;font-stretch:112%}
+h3{font-size:1.25rem;font-weight:650;font-stretch:100%}
+p{max-width:66ch}
+
+/* ---------- Barra superior ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:20;background:color-mix(in srgb,var(--papel) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:color-mix(in srgb,var(--tinta) 18%,transparent)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.marca{font-family:var(--display);font-weight:800;font-stretch:125%;font-size:1.05rem;text-decoration:none;display:flex;align-items:center;gap:10px}
+.marca svg{width:22px;height:22px}
+.top nav ul{display:flex;gap:4px;list-style:none}
+.top nav a{text-decoration:none;font-size:.95rem;font-weight:500;padding:8px 12px;border-radius:4px}
+.top nav a:hover{background:var(--papel-2)}
+.menu-btn{display:none;background:none;border:var(--borde);border-radius:4px;padding:6px 10px;font:500 .9rem var(--texto);color:var(--tinta)}
+
+.acciones{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 1rem var(--texto);text-decoration:none;padding:12px 20px;border:var(--borde);border-radius:4px;background:var(--papel);color:var(--tinta);cursor:pointer;transition:background .15s,color .15s}
+.btn:hover{background:var(--tinta);color:var(--papel)}
+.btn.lleno{background:var(--tinta);color:var(--papel)}
+.btn.lleno:hover{background:var(--agua);border-color:var(--agua)}
+
+/* ---------- Portada: imagen de geoinformática ---------- */
+.portada{position:relative;min-height:100svh;display:grid;grid-template-rows:1fr auto;color:var(--blanco);background:#0D1A21;overflow:hidden}
+.portada .fondo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 55%}
+.portada::before{content:"";position:absolute;inset:0;z-index:1;background:
+  linear-gradient(90deg,rgba(10,22,28,.94) 0%,rgba(10,22,28,.82) 38%,rgba(10,22,28,.35) 70%,rgba(10,22,28,.15) 100%),
+  linear-gradient(0deg,rgba(10,22,28,.95) 0%,rgba(10,22,28,0) 38%)}
+.portada .wrap{position:relative;z-index:2;width:100%}
+.portada-txt{align-self:center;padding-top:120px;padding-bottom:48px}
+.portada-txt .rol{font-size:clamp(1rem,1.4vw,1.15rem);font-weight:500;color:#9FD3CF}
+.portada-txt h1{margin-top:14px;font-size:clamp(2.8rem,7.4vw,6.6rem);font-weight:800;font-stretch:122%;line-height:.92;letter-spacing:-.025em;max-width:10ch}
+.portada-txt .bajada{margin-top:24px;font-size:clamp(1.1rem,1.6vw,1.3rem);max-width:44ch;color:#D9E4E3}
+.portada .btn{background:transparent;color:var(--blanco);border-color:var(--blanco)}
+.portada .btn:hover{background:var(--blanco);color:var(--tinta)}
+.portada .btn.lleno{background:var(--senal);border-color:var(--senal);color:var(--tinta)}
+.portada .btn.lleno:hover{background:var(--blanco);border-color:var(--blanco)}
+.pilares{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(247,249,248,.28)}
+.pilares li{display:flex;gap:12px;align-items:flex-start;padding:20px 20px 20px 0}
+.pilares li+li{padding-left:20px;border-left:1px solid rgba(247,249,248,.18)}
+.pilares svg{width:26px;height:26px;flex:none;color:var(--senal);margin-top:2px}
+.pilares strong{display:block;font:650 1rem/1.25 var(--display);font-stretch:105%}
+.pilares span{display:block;margin-top:4px;font-size:.88rem;color:#B9C9CA;line-height:1.4}
+.sectores{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 22px;padding:16px 0 26px;border-top:1px solid rgba(247,249,248,.18);font-size:.92rem;color:#B9C9CA}
+.sectores b{color:var(--blanco);font-weight:600}
+.sectores em{font-style:normal;color:var(--blanco);font-weight:500}
+/* La barra superior se vuelve clara sobre la foto */
+.top.sobre-foto:not(.scrolled){background:transparent;backdrop-filter:none;color:var(--blanco)}
+.top.sobre-foto:not(.scrolled) nav a:hover{background:rgba(247,249,248,.14)}
+.top.sobre-foto:not(.scrolled) .menu-btn{color:var(--blanco);border-color:var(--blanco)}
+@media (prefers-reduced-motion:no-preference){
+  .portada .fondo{animation:acerca 1.8s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes acerca{from{transform:scale(1.06);opacity:.4}to{transform:none;opacity:1}}
+}
+@media (max-width:960px){ .pilares{grid-template-columns:1fr 1fr} .pilares li:nth-child(3){padding-left:0;border-left:0} .pilares li:nth-child(n+3){border-top:1px solid rgba(247,249,248,.18)} }
+@media (max-width:760px){
+  .portada .fondo{object-position:30% 50%}
+  .portada::before{background:linear-gradient(0deg,rgba(10,22,28,.96) 0%,rgba(10,22,28,.8) 55%,rgba(10,22,28,.55) 100%)}
+  .pilares{grid-template-columns:1fr}
+  .pilares li,.pilares li+li{padding:14px 0;border-left:0}
+  .pilares li+li{border-top:1px solid rgba(247,249,248,.18)}
+  .top.sobre-foto:not(.scrolled) nav.abierto{color:var(--tinta)}
+}
+/* ---------- Secciones ---------- */
+section{padding:clamp(72px,10vw,128px) 0}
+.cabeza{display:grid;grid-template-columns:1fr minmax(0,1.1fr);gap:24px 48px;align-items:end;margin-bottom:48px}
+.cabeza p{color:var(--tinta-2)}
+
+/* Perfil */
+.perfil-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,80px);align-items:start}
+.foto{position:relative}
+.foto img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;object-position:50% 30%;border:var(--borde);filter:saturate(.9)}
+.foto figcaption{margin-top:10px;font-size:.85rem;color:var(--tinta-2)}
+.perfil-grid h2{margin-bottom:24px}
+.perfil-grid p+p{margin-top:16px}
+.datos{display:grid;grid-template-columns:repeat(3,1fr);margin-top:40px;border-top:var(--borde)}
+.datos div{padding:18px 18px 0 0}
+.datos div+div{padding-left:18px;border-left:1px solid color-mix(in srgb,var(--tinta) 25%,transparent)}
+.datos strong{display:block;font:750 2.3rem/1 var(--display);font-stretch:118%;color:var(--agua)}
+.datos span{font-size:.92rem;color:var(--tinta-2)}
+
+/* Proyectos */
+#proyectos{background:var(--tinta);color:var(--papel)}
+#proyectos .cabeza p{color:#AFC0C4}
+.filtros{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+.filtros button{font:500 .95rem var(--texto);color:var(--papel);background:transparent;border:1.5px solid #46606A;border-radius:999px;padding:8px 16px;cursor:pointer}
+.filtros button[aria-pressed="true"]{background:var(--papel);color:var(--tinta);border-color:var(--papel)}
+.filtros button:hover{border-color:var(--papel)}
+.galeria{display:grid;grid-auto-flow:dense;grid-template-columns:repeat(6,1fr);grid-auto-rows:170px;gap:14px;list-style:none}
+.galeria li{grid-column:span 2;grid-row:span 2}
+.galeria li.ancho{grid-column:span 4}
+.galeria li.alto{grid-row:span 3}
+.galeria li.bajo{grid-row:span 2}
+.galeria li[hidden]{display:none}
+.pieza{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-rows:1fr auto;width:100%;height:100%;background:#1C313B;border:1px solid #2C4652}
+.pieza:focus-visible{outline:3px solid var(--senal);outline-offset:3px}
+.pieza .img{overflow:hidden;min-height:0}
+.pieza img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .5s ease}
+.pieza:hover img{transform:scale(1.03)}
+.pieza .info{padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.pieza h3{font-size:1.02rem;font-weight:600;font-stretch:100%}
+.pieza .tipo{font-size:.8rem;color:#AFC0C4;white-space:nowrap}
+
+/* Visor (lightbox) */
+dialog.visor{margin:auto;max-width:min(1100px,94vw);max-height:92vh;border:0;background:var(--papel);color:var(--tinta);padding:0;display:none}
+dialog.visor[open]{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(260px,1fr)}
+dialog.visor::backdrop{background:rgba(10,22,28,.82)}
+.visor .lienzo{background:#0E1A20;display:flex;align-items:center;justify-content:center;min-height:0}
+.visor .lienzo img{max-height:92vh;width:auto;max-width:100%;object-fit:contain}
+.visor .ficha{padding:28px;overflow:auto;display:flex;flex-direction:column;gap:14px}
+.visor .ficha h3{font-size:1.6rem;font-weight:750;font-stretch:110%}
+.visor .ficha .tipo{color:var(--agua);font-weight:600;font-size:.92rem}
+.visor ul.herr{display:flex;flex-wrap:wrap;gap:6px;list-style:none}
+.visor ul.herr li{font-size:.82rem;border:1px solid var(--tinta-2);border-radius:3px;padding:3px 8px}
+.cerrar{position:absolute;top:12px;right:12px;background:var(--papel);border:var(--borde);border-radius:4px;width:40px;height:40px;font-size:1.3rem;line-height:1;cursor:pointer;color:var(--tinta)}
+.visor .nav{margin-top:auto;display:flex;gap:8px}
+.visor .nav button{flex:1}
+
+/* Experiencia */
+.exp{list-style:none;border-top:var(--borde)}
+.exp li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 64px;gap:16px 40px;padding:26px 0;border-bottom:1px solid color-mix(in srgb,var(--tinta) 25%,transparent);align-items:baseline}
+.exp h3{font-size:1.45rem;font-weight:700;font-stretch:112%}
+.exp .sector{font-size:.9rem;color:var(--tinta-2);margin-top:4px}
+.exp p{color:var(--tinta)}
+.exp .estado{font-size:.85rem;font-weight:600;color:var(--agua);white-space:nowrap}
+
+/* Herramientas */
+#herramientas{background:var(--papel-2)}
+.capas{display:grid;grid-template-columns:repeat(3,1fr);border-top:var(--borde);border-left:var(--borde)}
+.capa{padding:24px 22px 26px;border-right:var(--borde);border-bottom:var(--borde);background:var(--papel)}
+.capa h3{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.capa h3 svg{width:22px;height:22px;flex:none;color:var(--agua)}
+.capa ul{list-style:none;display:flex;flex-wrap:wrap;gap:6px 14px}
+.capa li{font-size:.98rem}
+.certs{margin-top:48px;display:grid;grid-template-columns:auto 1fr;gap:12px 40px;align-items:baseline}
+.certs h3{font-size:1.5rem;font-stretch:112%}
+.certs ul{list-style:none;display:grid;gap:10px}
+.certs li{padding-left:22px;position:relative}
+.certs li::before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border:2px solid var(--agua);transform:rotate(45deg)}
+
+/* Contacto */
+.contacto-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,80px)}
+.contacto-grid h2{font-size:clamp(2.4rem,5.5vw,4.4rem);font-stretch:118%}
+.contacto-grid > div > p{margin-top:20px;color:var(--tinta-2)}
+.redes{list-style:none;margin-top:32px;border-top:var(--borde)}
+.redes a{display:flex;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid color-mix(in srgb,var(--tinta) 25%,transparent);text-decoration:none;font-weight:500}
+.redes a:hover{color:var(--agua)}
+.redes svg{width:22px;height:22px;flex:none}
+.redes small{margin-left:auto;color:var(--tinta-2);font-weight:400}
+form{display:grid;gap:18px;align-content:start}
+label{display:block;font-weight:500;font-size:.95rem;margin-bottom:6px}
+input,textarea{width:100%;font:400 1rem var(--texto);color:var(--tinta);background:var(--blanco);border:var(--borde);border-radius:4px;padding:12px 14px}
+textarea{min-height:150px;resize:vertical}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.nota{font-size:.88rem;color:var(--tinta-2)}
+
+footer{border-top:var(--borde);padding:28px 0;font-size:.9rem;color:var(--tinta-2)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:960px){
+  .galeria{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px}
+  .galeria li,.galeria li.ancho{grid-column:span 2;grid-row:span 2}
+  .galeria li.alto{grid-column:span 1;grid-row:span 3}
+  .capas{grid-template-columns:1fr 1fr}
+  dialog.visor[open]{grid-template-columns:1fr;overflow:auto}
+  .visor .lienzo img{max-height:60vh}
+}
+@media (max-width:760px){
+  .top nav{display:none;position:absolute;top:64px;left:0;right:0;background:var(--papel);border-bottom:var(--borde)}
+  .top nav.abierto{display:block}
+  .top nav ul{flex-direction:column;padding:8px 16px 16px}
+  .menu-btn{display:block}
+  .cabeza,.perfil-grid,.contacto-grid,.certs{grid-template-columns:1fr}
+  .perfil-grid .foto{max-width:320px}
+  .exp li{grid-template-columns:1fr}
+  .capas{grid-template-columns:1fr}
+  .datos strong{font-size:1.8rem}
+  .par{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="top sobre-foto" id="top">
+  <div class="wrap">
+    <a href="#inicio" class="marca" aria-label="Sergio Morales Meza, inicio">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+      Sergio Morales
+    </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menú</button>
+    <nav id="menu" aria-label="Principal">
+      <ul>
+        <li><a href="#perfil">Perfil</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#experiencia">Experiencia</a></li>
+        <li><a href="#herramientas">Herramientas</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- Portada: imagen de un centro de trabajo SIG con mapas, tableros y dron -->
+<div class="portada" id="inicio">
+  <img class="fondo" src="images/portada-geoinformatica.jpg" alt="" width="1280" height="1280" fetchpriority="high">
+  <div class="wrap portada-txt">
+    <p class="rol">Licenciado en Geoinformática</p>
+    <h1>Sergio Morales Meza</h1>
+    <p class="bajada">Analista y desarrollador SIG. Convierto datos territoriales en bases de datos espaciales, tableros, visores web y levantamientos con dron que ayudan a tomar decisiones.</p>
+    <div class="acciones">
+      <a class="btn lleno" href="#proyectos">Ver proyectos</a>
+      <a class="btn" href="#contacto">Contactar</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <ul class="pilares">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="m2 16 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
+        <div><strong>Sistemas de Información Geográfica</strong><span>Análisis espacial y cartografía en QGIS y ArcGIS</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>
+        <div><strong>Software y bases de datos</strong><span>PostGIS, SQL Server, Python, R y GeoServer</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="6" height="6" rx="1"/><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7 7l2 2M17 7l-2 2M7 17l2-2M17 17l-2-2"/></svg>
+        <div><strong>Drones</strong><span>Fotogrametría, mapeo y búsqueda y rescate</span></div></li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M9 21V9"/><path d="M12.5 17v-3M15.5 17v-5M18.5 17v-2"/></svg>
+        <div><strong>Dashboards y visores web</strong><span>Power BI, ArcGIS Dashboards y web mapping</span></div></li>
+    </ul>
+    <p class="sectores"><b>Sector público y privado:</b>  <em>Globant</em> <em>Secretaría de Seguridad del Edomex</em> <em>IEEM</em> <em>SACMEX</em></p>
+  </div>
+</div>
+<!-- Perfil -->
+<section id="perfil">
+  <div class="wrap perfil-grid">
+    <figure class="foto">
+      <img src="images/sergio.jpg" alt="Retrato de Sergio Morales Meza" width="1197" height="975">
+      <figcaption>Sergio Morales Meza, Lic. en Geoinformática</figcaption>
+    </figure>
+    <div>
+      <h2>Datos geográficos que se pueden consultar, medir y explicar</h2>
+      <p>Trabajo con información territorial de punta a punta: diseño y mantengo bases de datos espaciales en PostgreSQL/PostGIS, actualizo cartografía y catálogos, analizo patrones con Python y R, y publico los resultados en visores web y tableros que cualquier equipo puede usar.</p>
+      <p>He colaborado con instituciones de seguridad, electorales y de agua, y con empresas de tecnología, en proyectos de incidencia delictiva, cartografía electoral y administrativa, redes de transporte público y geomarketing. Como operador de dron, levanto información para fotogrametría, mapeo y apoyo en búsqueda y rescate.</p>
+      <div class="datos">
+        <div><strong>6+</strong><span>años de experiencia</span></div>
+        <div><strong>4</strong><span>organizaciones públicas y privadas</span></div>
+        <div><strong>4</strong><span>líneas de trabajo: datos, web, cartografía y dron</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Proyectos -->
+<section id="proyectos">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Proyectos</h2>
+      <p>Una selección de tableros, visores web, mapas temáticos y levantamientos con dron. Abre cualquier pieza para ver la imagen completa y las herramientas utilizadas.</p>
+    </div>
+    <div class="filtros" role="group" aria-label="Filtrar proyectos">
+      <button aria-pressed="true" data-f="todos">Todos</button>
+      <button aria-pressed="false" data-f="tablero">Tableros</button>
+      <button aria-pressed="false" data-f="web">Visores web</button>
+      <button aria-pressed="false" data-f="mapa">Cartografía</button>
+      <button aria-pressed="false" data-f="dron">Dron</button>
+    </div>
+    <ul class="galeria" id="galeria"></ul>
+  </div>
+</section>
+
+<dialog class="visor" id="visor" aria-labelledby="v-titulo">
+  <div class="lienzo"><img id="v-img" alt=""></div>
+  <div class="ficha">
+    <span class="tipo" id="v-tipo"></span>
+    <h3 id="v-titulo"></h3>
+    <p id="v-desc"></p>
+    <ul class="herr" id="v-herr"></ul>
+    <div class="nav">
+      <button class="btn" id="v-prev">Anterior</button>
+      <button class="btn" id="v-next">Siguiente</button>
+    </div>
+  </div>
+  <button class="cerrar" id="v-cerrar" aria-label="Cerrar">×</button>
+</dialog>
+
+<!-- Experiencia -->
+<section id="experiencia">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Experiencia</h2>
+      <p>Sector público y privado: seguridad, procesos electorales, agua, tecnología y consultoría geoespacial.</p>
+    </div>
+    <ul class="exp">
+       <li>
+        <div><h3>SACMEX</h3><div class="sector">Sistema de Aguas de la Ciudad de México</div></div>
+        <p>Gestión de información geográfica para servicios urbanos.</p>
+        <span class="estado">Actual</span>
+      </li>
+      
+      <li>
+        <div><h3>Globant</h3><div class="sector">Tecnología</div></div>
+        <p>Análisis y desarrollo con datos geográficos en proyectos de tecnología.</p>
+        <span class="estado"></span>
+      </li>
+      <li>
+        <div><h3>Secretaría de Seguridad del Estado de México</h3><div class="sector">Seguridad pública</div></div>
+        <p>Análisis espacial de incidencia delictiva y tableros de seguimiento.</p>
+        <span class="estado"></span>
+      </li>
+      <li>
+        <div><h3>Instituto Electoral del Estado de México</h3><div class="sector">Organismo electoral</div></div>
+        <p>Manejo de cartografía electoral y bases de datos geográficas.</p>
+        <span class="estado"></span>
+      </li>
+     
+    </ul>
+  </div>
+</section>
+
+<!-- Herramientas -->
+<section id="herramientas">
+  <div class="wrap">
+    <div class="cabeza">
+      <h2>Herramientas</h2>
+      <p>Organizadas como capas de un proyecto SIG: del dato crudo al mapa publicado.</p>
+    </div>
+    <div class="capas">
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>Bases de datos</h3>
+        <ul><li>PostgreSQL</li><li>PostGIS</li><li>SQL Server</li><li>MySQL</li><li>AWS RDS</li></ul>
+      </div>
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="m2 16 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>SIG de escritorio</h3>
+        <ul><li>QGIS</li><li>ArcGIS Pro</li><li>Geoprocesamiento</li><li>Simbolización y diseño cartográfico</li></ul>
+      </div>
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/><path d="m14 4-4 16"/></svg>Programación</h3>
+        <ul><li>Python</li><li>R</li><li>SQL</li><li>JavaScript</li></ul>
+      </div>
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>Web mapping</h3>
+        <ul><li>GeoServer</li><li>Leaflet</li><li>Folium</li><li>ArcGIS Online</li></ul>
+      </div>
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Tableros y BI</h3>
+        <ul><li>Power BI</li><li>ArcGIS Dashboards</li><li>Análisis estadístico</li><li>Geomarketing</li></ul>
+      </div>
+      <div class="capa">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="6" height="6" rx="1"/><circle cx="5" cy="5" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7 7l2 2M17 7l-2 2M7 17l2-2M17 17l-2-2"/></svg>Dron</h3>
+        <ul><li>Fotogrametría</li><li>Ortomosaicos y mapeo</li><li>Búsqueda y rescate</li></ul>
+      </div>
+    </div>
+    <div class="certs">
+      <h3>Certificaciones</h3>
+      <ul>
+        <li>Scrum</li>
+        <li>Administración del Desarrollo Urbano y Ordenamiento Territorial</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Contacto -->
+<section id="contacto">
+  <div class="wrap contacto-grid">
+    <div>
+      <h2>¿Tienes un proyecto con datos geográficos?</h2>
+      <p>Escríbeme para colaboraciones, consultorías o vacantes en SIG, bases de datos espaciales y web mapping.</p>
+      <ul class="redes">
+        <li><a href="https://www.linkedin.com/in/sergio-morales-meza-4bb581325/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.3V9h3.4v1.6h.1c.5-.9 1.6-1.8 3.4-1.8 3.6 0 4.3 2.4 4.3 5.5v6.2zM5.3 7.4a2.1 2.1 0 1 1 0-4.2 2.1 2.1 0 0 1 0 4.2zM7.1 20.5H3.5V9h3.6v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7C24 .8 23.2 0 22.2 0z"/></svg>
+          LinkedIn<small>Sergio Morales Meza</small></a></li>
+        <li><a href="https://github.com/sergiomorame" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          GitHub<small>sergiomorame</small></a></li>
+        <li><a href="https://www.instagram.com/lageomx" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none"/></svg>
+          Instagram<small>@lageomx</small></a></li>
+        <li><a href="https://www.facebook.com/share/1Dhi8sM1QQ/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v2.9h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg>
+          Facebook<small>Página</small></a></li>
+      </ul>
+    </div>
+    <form id="form-contacto" novalidate>
+      <div class="par">
+        <div><label for="nombre">Nombre</label><input id="nombre" name="nombre" autocomplete="name" required></div>
+        <div><label for="correo">Correo</label><input id="correo" name="correo" type="email" autocomplete="email" required></div>
+      </div>
+      <div><label for="mensaje">Mensaje</label><textarea id="mensaje" name="mensaje" required></textarea></div>
+      <div><button class="btn lleno" type="submit">Enviar mensaje</button></div>
+      <p class="nota" id="form-nota" role="status">El mensaje se abrirá en tu aplicación de correo, listo para enviar.</p>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="anio"></span> Sergio Morales Meza</span>
+    <span>Licenciado en Geoinformática, Estado de México</span>
+  </div>
+</footer>
+
+<script>
+/* ===== Configuración: escribe aquí tu correo para que funcione el formulario ===== */
+const CORREO_CONTACTO = "";
+
+/* ===== Proyectos: edita, agrega o quita piezas aquí =====
+   tipo: tablero | web | mapa | dron      forma: "" | "ancho" | "alto"           */
+const PROYECTOS = [
+  {img:"dashboard-lerma.jpg", forma:"ancho", tipo:"tablero", titulo:"Incidencia delictiva en Lerma",
+   desc:"Tablero de seguimiento con total de casos por tipo de delito, mapa de incidentes georreferenciados y gráficas por mes, hora y día con mayor incidencia.",
+   herr:["ArcGIS Dashboards","ArcGIS Online","Análisis espacial"]},
+  {img:"poster-cdmx.jpg", forma:"alto", tipo:"mapa", titulo:"Ciudad de México: red vial",
+   desc:"Póster cartográfico de la red vial de la Ciudad de México, con estilo minimalista y coordenadas de referencia.",
+   herr:["QGIS","OpenStreetMap","Diseño cartográfico"]},
+  {img:"dashboard-robo-vehiculo.jpg", forma:"", tipo:"tablero", titulo:"Robo de vehículo en el Estado de México",
+   desc:"Tablero con indicadores de robo de vehículo, distribución por municipio y mapa de ubicación de los eventos.",
+   herr:["Power BI","PostgreSQL","Análisis estadístico"]},
+  {img:"visor-robo-colonias.jpg", forma:"ancho", tipo:"web", titulo:"Visor de robo de vehículos por colonia",
+   desc:"Visor interactivo con capas de robo por calle y por colonia, marcas y modelos más robados y colonias con más incidencia.",
+   herr:["Web mapping","Python","Gráficas interactivas"]},
+  {img:"ceniza-popocatepetl.jpg", forma:"ancho", tipo:"web", titulo:"Caída de ceniza del Popocatépetl",
+   desc:"Mapa web con zonas de probabilidad de caída de ceniza y su radio de afectación sobre los estados del centro del país.",
+   herr:["Web mapping","Análisis de riesgo","Geoprocesamiento"]},
+  {img:"violencia-mujeres.jpg", forma:"alto", tipo:"tablero", titulo:"Violencia contra las mujeres en el Estado de México",
+   desc:"Infografía analítica con magnitud de la violencia por municipio, tipos de incidencia y días con mayor registro.",
+   herr:["Power BI","Análisis estadístico","Visualización de datos"]},
+  {img:"mapa-folium.jpg", forma:"", tipo:"web", titulo:"Mapa interactivo con Python",
+   desc:"Mapa con símbolos proporcionales, puntos de interés y control de capas generado desde un cuaderno de Python.",
+   herr:["Python","Folium","Leaflet"]},
+  {img:"urbanizacion-toluca.jpg", forma:"", tipo:"mapa", titulo:"Urbanización del Valle de Toluca, 2015",
+   desc:"Mapa temático de distribución y grado de urbanización en el Valle de Toluca.",
+   herr:["QGIS","Datos censales","Cartografía temática"]},
+  {img:"mapa-lego-edomex.jpg", forma:"", tipo:"mapa", titulo:"Mapa Lego del Estado de México",
+   desc:"Representación de la altitud del Estado de México con estética de bloques, a partir de un modelo digital de elevación.",
+   herr:["QGIS","Modelo digital de elevación","Diseño cartográfico"]},
+  {img:"poster-guadalajara.jpg", forma:"alto", tipo:"mapa", titulo:"Guadalajara: red vial",
+   desc:"Póster cartográfico de la red vial de Guadalajara con paleta oscura.",
+   herr:["QGIS","OpenStreetMap","Diseño cartográfico"]},
+  {img:"angel-qgis.jpg", forma:"ancho", tipo:"mapa", titulo:"El Ángel en la traza urbana",
+   desc:"Composición artística que proyecta el Ángel de la Independencia sobre la geometría de la Ciudad de México.",
+   herr:["QGIS","Arte cartográfico"]},
+  {img:"dron-selva.jpg", forma:"alto", tipo:"dron", titulo:"Levantamiento aéreo en zona selvática",
+   desc:"Vuelo de reconocimiento sobre vegetación densa para apoyo en búsqueda y localización.",
+   herr:["Dron","Búsqueda y rescate","Fotografía aérea"]},
+  {img:"dron-poblado.jpg", forma:"ancho", tipo:"dron", titulo:"Vista aérea de un poblado",
+   desc:"Fotografía aérea oblicua para reconocimiento del terreno y planeación de mapeo.",
+   herr:["Dron","Mapeo","Fotogrametría"]},
+  {img:"dron-vuelo.jpg", forma:"", tipo:"dron", titulo:"Preparación de vuelo",
+   desc:"Equipo listo para despegue en una misión de levantamiento fotogramétrico.",
+   herr:["Dron","Planeación de vuelo"]},
+];
+const NOMBRE_TIPO = {tablero:"Tablero", web:"Visor web", mapa:"Cartografía", dron:"Dron"};
+
+/* ---- Galería ---- */
+const galeria = document.getElementById("galeria");
+PROYECTOS.forEach((p,i)=>{
+  const li = document.createElement("li");
+  if(p.forma) li.className = p.forma;
+  li.dataset.tipo = p.tipo;
+  li.innerHTML = `<button class="pieza" data-i="${i}" aria-label="Abrir ${p.titulo}">
+      <span class="img"><img src="images/${p.img}" alt="${p.titulo}" loading="lazy"></span>
+      <span class="info"><h3>${p.titulo}</h3><span class="tipo">${NOMBRE_TIPO[p.tipo]}</span></span>
+    </button>`;
+  galeria.appendChild(li);
+});
+
+document.querySelectorAll(".filtros button").forEach(b=>{
+  b.addEventListener("click",()=>{
+    document.querySelectorAll(".filtros button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+    const f = b.dataset.f;
+    galeria.querySelectorAll("li").forEach(li=> li.hidden = !(f==="todos" || li.dataset.tipo===f));
+  });
+});
+
+/* ---- Visor ---- */
+const visor = document.getElementById("visor");
+let actual = 0;
+function visibles(){ return [...galeria.querySelectorAll("li:not([hidden]) .pieza")].map(b=>+b.dataset.i); }
+function mostrar(i){
+  actual = i; const p = PROYECTOS[i];
+  const img = document.getElementById("v-img"); img.src = "images/"+p.img; img.alt = p.titulo;
+  document.getElementById("v-titulo").textContent = p.titulo;
+  document.getElementById("v-tipo").textContent = NOMBRE_TIPO[p.tipo];
+  document.getElementById("v-desc").textContent = p.desc;
+  document.getElementById("v-herr").innerHTML = p.herr.map(h=>`<li>${h}</li>`).join("");
+}
+function mover(d){ const v = visibles(); const k = v.indexOf(actual); mostrar(v[(k+d+v.length)%v.length]); }
+galeria.addEventListener("click",e=>{ const b = e.target.closest(".pieza"); if(!b) return; mostrar(+b.dataset.i); visor.showModal(); });
+document.getElementById("v-cerrar").onclick = ()=>visor.close();
+document.getElementById("v-prev").onclick = ()=>mover(-1);
+document.getElementById("v-next").onclick = ()=>mover(1);
+visor.addEventListener("click",e=>{ if(e.target===visor) visor.close(); });
+visor.addEventListener("keydown",e=>{ if(e.key==="ArrowRight") mover(1); if(e.key==="ArrowLeft") mover(-1); });
+
+
+/* ---- Menú móvil y barra ---- */
+const menuBtn = document.querySelector(".menu-btn"), menu = document.getElementById("menu");
+menuBtn.onclick = ()=>{ const a = menu.classList.toggle("abierto"); menuBtn.setAttribute("aria-expanded", a); };
+menu.addEventListener("click",e=>{ if(e.target.tagName==="A"){ menu.classList.remove("abierto"); menuBtn.setAttribute("aria-expanded",false);} });
+const top_ = document.getElementById("top");
+addEventListener("scroll",()=>top_.classList.toggle("scrolled", scrollY>10), {passive:true});
+
+/* ---- Formulario (abre el correo del visitante) ---- */
+document.getElementById("form-contacto").addEventListener("submit",e=>{
+  e.preventDefault();
+  const f = e.target, nota = document.getElementById("form-nota");
+  if(!f.checkValidity()){ nota.textContent = "Completa tu nombre, un correo válido y el mensaje."; f.reportValidity(); return; }
+  if(!CORREO_CONTACTO){ nota.textContent = "El formulario aún no tiene correo configurado. Escríbeme por LinkedIn mientras tanto."; return; }
+  const asunto = encodeURIComponent("Contacto desde el portafolio: "+f.nombre.value);
+  const cuerpo = encodeURIComponent(f.mensaje.value+"\n\n"+f.nombre.value+" ("+f.correo.value+")");
+  location.href = `mailto:${CORREO_CONTACTO}?subject=${asunto}&body=${cuerpo}`;
+  nota.textContent = "Se abrió tu aplicación de correo con el mensaje listo para enviar.";
+});
+
+document.getElementById("anio").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
